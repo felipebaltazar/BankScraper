@@ -1,2 +1,2 @@
 # BankScraper
-Brazilian banks scraping tool
+Brazilian Bank Scraper
