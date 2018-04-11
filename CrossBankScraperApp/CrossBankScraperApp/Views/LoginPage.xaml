@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossBankScraperApp.Views.LoginPage"
+             xmlns:control="clr-namespace:CrossBankScraperApp.Views;assembly=CrossBankScraperApp"
+             Title="Cross Bank Scraper App"
+             IsBusy="{Binding IsBusy}">
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand"
+                AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+                
+                <Label Text="Login:" HorizontalOptions="CenterAndExpand" />
+                
+                <Entry Placeholder="UserName or Account" Text="{Binding UserLogin}"
+                       HorizontalOptions="FillAndExpand"/>
+                
+                <Label Text="Password:" HorizontalOptions="CenterAndExpand" />
+                
+                <Entry Placeholder="Your password" Text="{Binding UserPassword}" IsPassword="True"
+                       HorizontalOptions="FillAndExpand"/>
+                
+                <Button Command="{Binding DoLoginCommand}" Text="Login"
+                        HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+            
+            <control:BusyView x:Name="busyView" IsVisible="{Binding IsBusy}"/>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

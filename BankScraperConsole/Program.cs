@@ -16,13 +16,13 @@ namespace BankScraperConsole
             account = Console.ReadLine();
             Console.WriteLine("Now enter your password:");
             password = Console.ReadLine();
-
+            
             var logged = bankscraper.LoginAsync(account, password).Result;
 
             if (logged)
             {
                 var userDetails = bankscraper.GetUserDetailsAsync().Result;
-                Console.WriteLine($"User Name: {userDetails.Name}\nUser Account: {userDetails.Account}\nUser Balance: {userDetails.Balance}");
+                Console.WriteLine($"\nUser Name: {userDetails.Name}\nUser Account: {userDetails.Account}\nUser Balance: {userDetails.Balance}");
                 Console.ReadKey();
             }
         }

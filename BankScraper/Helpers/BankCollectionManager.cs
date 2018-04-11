@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BankScraper.Helpers
 {
-    internal static class BankManager
+    internal static class BankCollectionManager
     {
         private static List<IBank> _allBanks;
 

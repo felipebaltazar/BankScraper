@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<StackLayout 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="CrossBankScraperApp.Views.BusyView"
+    Orientation="Vertical"
+    AbsoluteLayout.LayoutFlags="All"
+    AbsoluteLayout.LayoutBounds="0,-0.5,1,1"
+    HorizontalOptions="FillAndExpand"
+    VerticalOptions="FillAndExpand">
+
+    <StackLayout.GestureRecognizers>
+        <TapGestureRecognizer/>
+    </StackLayout.GestureRecognizers>
+
+    <ContentView 
+        VerticalOptions="FillAndExpand" 
+        HorizontalOptions="FillAndExpand"
+        IsEnabled="False">
+        <ContentView.Content>
+            <Frame x:Name="busyFrame" IsEnabled="False" CornerRadius="12" OutlineColor="Gray" 
+                   BackgroundColor="Black" HasShadow="True" IsVisible="True"
+                   Opacity="0.8" HorizontalOptions="Center" VerticalOptions="Center">
+
+                <StackLayout Padding="12" IsVisible="True" IsEnabled="False">
+                    <ActivityIndicator IsEnabled="True" IsRunning="True" WidthRequest="98" HeightRequest="98" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Label Text="Loading..." TextColor="White" HorizontalOptions="Center" IsVisible="True"/>
+                </StackLayout>
+            </Frame>
+        </ContentView.Content>
+    </ContentView>
+</StackLayout>

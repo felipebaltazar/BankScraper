@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BankScraper.Helpers
 {
-    public class WebNavigator
+    internal class WebNavigator
     {
         private string postData = string.Empty;
         private string contentType = string.Empty;
@@ -119,22 +119,8 @@ namespace BankScraper.Helpers
             request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
             request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
             request.CookieContainer = cookieContainer;
-            //request.KeepAlive = true;
-
-            request.Headers.GetType().InvokeMember(
-                "ChangeInternal",
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-                Type.DefaultBinder,
-                request.Headers,
-                new object[] { "Connection", "keep-alive" });
-
-            //request.Headers.GetType().InvokeMember(
-            //    "ChangeInternal",
-            //    BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-            //    Type.DefaultBinder,
-            //    request.Headers,
-            //    new object[] { "Accept-Encoding", "gzip, deflate, br" });
-
+            request.KeepAlive = true;
+            
             request.Headers.Add("Accept-Language", "pt-BR,pt;q=0.9");
             
             if (AditionalHeaders.Count > 0)

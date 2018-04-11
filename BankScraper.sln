@@ -1,15 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankScraper", "BankScraper\BankScraper.csproj", "{081D285B-1B88-445C-A632-87F72798BB98}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0C64A279-91B4-4079-9130-3E0A9BC4DD73}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{1EB79B94-C521-43D4-A310-F435A2E8651B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankScraperConsole", "BankScraperConsole\BankScraperConsole.csproj", "{87A8C7AA-F760-4EF4-B89F-67FA0E762094}"
+	ProjectSection(SolutionItems) = preProject
+		BankScraper\App.config = BankScraper\App.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,17 +20,12 @@ Global
 		{081D285B-1B88-445C-A632-87F72798BB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{081D285B-1B88-445C-A632-87F72798BB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{081D285B-1B88-445C-A632-87F72798BB98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87A8C7AA-F760-4EF4-B89F-67FA0E762094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87A8C7AA-F760-4EF4-B89F-67FA0E762094}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87A8C7AA-F760-4EF4-B89F-67FA0E762094}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87A8C7AA-F760-4EF4-B89F-67FA0E762094}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{081D285B-1B88-445C-A632-87F72798BB98} = {0C64A279-91B4-4079-9130-3E0A9BC4DD73}
-		{87A8C7AA-F760-4EF4-B89F-67FA0E762094} = {1EB79B94-C521-43D4-A310-F435A2E8651B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0A1EB47B-99F9-432C-BA08-61184565E7ED}

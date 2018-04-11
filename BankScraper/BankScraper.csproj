@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Felipe da Silva Baltazar</Authors>
+    <Company>Felipe da Silva Baltazar</Company>
   </PropertyGroup>
 
   <ItemGroup>

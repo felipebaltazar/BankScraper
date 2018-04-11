@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossBankScraperApp.Views.DashBoardPage"
+             Title="Dashboard">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Name:" FontSize="Large" HorizontalOptions="Start" />
+            
+            <Label Text="{Binding User.Name}"
+                HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="Account:" FontSize="Large" HorizontalOptions="Start" />
+            
+            <Label Text="{Binding User.Account}"
+                HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="Balance:" FontSize="Large" HorizontalOptions="Start" />
+            
+            <Label Text="{Binding User.Balance}" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

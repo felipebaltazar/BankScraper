@@ -3,5 +3,6 @@
     public enum BankFlag
     {
         Intermedium = 077,
+        ItauUnibanco = 341
     }
 }

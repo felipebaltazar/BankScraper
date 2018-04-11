@@ -16,7 +16,7 @@ namespace BankScraper
 
         public Scraper(BankFlag flag)
         {
-            _bank = BankManager.AllBanks
+            _bank = BankCollectionManager.AllBanks
                 .FirstOrDefault(b => b.Flag == flag);
             
             if (_bank == null)
