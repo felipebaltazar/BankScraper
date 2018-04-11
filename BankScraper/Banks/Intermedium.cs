@@ -39,53 +39,59 @@ namespace BankScraper.Banks
 
         public async Task<bool> LoginAsync(string userOrAccount, string password)
         {
-            try
+            return await Task.Run(async() => 
             {
-                _userAccount = userOrAccount.Replace("-", string.Empty);
-                _password = password;
+                try
+                {
+                    _userAccount = userOrAccount.Replace("-", string.Empty);
+                    _password = password;
 
-                var responseString = await InitializeCookiesAsync();
+                    var responseString = await InitializeCookiesAsync();
 
-                responseString = await PostUserAccountAsync(responseString);
-                responseString = await OpenVirtualKeyboardAsync(responseString);
-                responseString = await PostPasswordAsync(responseString);
+                    responseString = await PostUserAccountAsync(responseString);
+                    responseString = await OpenVirtualKeyboardAsync(responseString);
+                    responseString = await PostPasswordAsync(responseString);
 
-                return await GetHomePageAsync(responseString);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Login error on Intermedium bank.\nDetails:{ex.Message}");
-                return false;
-            }
+                    return await GetHomePageAsync(responseString);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Login error on Intermedium bank.\nDetails:{ex.Message}");
+                    return false;
+                }
+            });            
         }
         
         public async Task<UserDetails> GetUserDetailsAsync()
         {
-            if (_htmlDocument == null)
-                throw new UnauthorizedAccessException("Do login first!");
-
-            var nodeCollection = _htmlDocument.DocumentNode?.Descendants("span")?.ToList();
-            var bankData = nodeCollection?
-                .FirstOrDefault(s => s.InnerText.Contains("Agência:"));
-
-            var bankDataStrings = bankData.InnerText
-                .Replace("\n", "").Replace("\t", "")
-                .Replace(" ","").Split('/');
-
-            var agency = bankDataStrings[0].Substring(8, 4);
-            var account = bankDataStrings[1].Substring(6);
-            var userName = nodeCollection[nodeCollection.IndexOf(bankData) - 1]
-                .InnerText.Replace("\n", "").Replace("\t", "");
-
-            var balance = await GetUserBalanceAsync();
-
-            return new UserDetails
+            return await Task.Run(async () => 
             {
-                Name = userName,
-                Account = account,
-                Agency = agency,
-                Balance = balance
-            };
+                if (_htmlDocument == null)
+                    throw new UnauthorizedAccessException("Do login first!");
+
+                var nodeCollection = _htmlDocument.DocumentNode?.Descendants("span")?.ToList();
+                var bankData = nodeCollection?
+                    .FirstOrDefault(s => s.InnerText.Contains("Agência:"));
+
+                var bankDataStrings = bankData.InnerText
+                    .Replace("\n", "").Replace("\t", "")
+                    .Replace(" ", "").Split('/');
+
+                var agency = bankDataStrings[0].Substring(8, 4);
+                var account = bankDataStrings[1].Substring(6);
+                var userName = nodeCollection[nodeCollection.IndexOf(bankData) - 1]
+                    .InnerText.Replace("\n", "").Replace("\t", "");
+
+                var balance = await GetUserBalanceAsync();
+
+                return new UserDetails
+                {
+                    Name = userName,
+                    Account = account,
+                    Agency = agency,
+                    Balance = balance
+                };
+            });            
         }
 
         #endregion

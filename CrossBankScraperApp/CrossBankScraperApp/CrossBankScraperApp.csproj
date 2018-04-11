@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.7.4" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.121934" />
   </ItemGroup>
 

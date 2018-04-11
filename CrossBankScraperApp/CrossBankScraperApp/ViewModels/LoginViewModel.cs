@@ -1,6 +1,9 @@
 ﻿using BankScraper;
 using BankScraper.Enums;
 using CrossBankScraperApp.Helpers;
+using CrossBankScraperApp.Interfaces;
+using CrossBankScraperApp.Mappings;
+using CrossBankScraperApp.Models;
 using CrossBankScraperApp.Views;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,6 +15,8 @@ namespace CrossBankScraperApp.ViewModels
     {
         private string _userLogin = string.Empty;
         private string _userPassword = string.Empty;
+
+        private readonly IDatabase _database;
         private readonly Scraper _bankScraper;
 
         public string UserLogin
@@ -30,7 +35,11 @@ namespace CrossBankScraperApp.ViewModels
 
         public LoginViewModel()
         {
+
             _bankScraper = new Scraper(BankFlag.Intermedium);
+            _database = DependencyService.Get<IDatabase>();
+            _database.CreateTable<UserDTO>();
+
             DoLoginCommand = new Command(async () => await DoLoginCommandExecute());
         }
 
@@ -45,11 +54,20 @@ namespace CrossBankScraperApp.ViewModels
             }
 
             var IsLogged = await _bankScraper.LoginAsync(UserLogin, UserPassword);
-
             if (IsLogged)
             {
                 var userDetails = await _bankScraper.GetUserDetailsAsync();
+                if(userDetails == null)
+                {
+                    IsBusy = false;
+                    return;
+                }
+
+                var userDto = UserMappings.FromUserToDTO.Project(userDetails);
                 var userViewModel = new UserViewModel(userDetails);
+
+                _database.Save(userDto);
+
                 await NavigationHelper.PushAsync(new DashBoardPage(userViewModel));
             }
 
