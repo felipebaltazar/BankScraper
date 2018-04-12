@@ -35,7 +35,6 @@ namespace CrossBankScraperApp.ViewModels
 
         public LoginViewModel()
         {
-
             _bankScraper = new Scraper(BankFlag.Intermedium);
             _database = DependencyService.Get<IDatabase>();
             _database.CreateTable<UserDTO>();

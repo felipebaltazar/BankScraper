@@ -1,4 +1,5 @@
 ﻿using BankScraper.Enums;
+using BankScraper.Extensions;
 using BankScraper.Helpers;
 using BankScraper.Interfaces;
 using BankScraper.Models;
@@ -13,8 +14,10 @@ namespace BankScraper.Banks
     internal class Intermedium : IBank
     {
         private const string BASE_URL = "https://internetbanking.bancointer.com.br";
+
         private readonly WebNavigator _webNavigator;
         private readonly HtmlDocument _htmlDocument;
+
         private string _password;
         private string _userAccount;
         private string _viewStatePrimary;
@@ -69,18 +72,21 @@ namespace BankScraper.Banks
                 if (_htmlDocument == null)
                     throw new UnauthorizedAccessException("Do login first!");
 
-                var nodeCollection = _htmlDocument.DocumentNode?.Descendants("span")?.ToList();
+                var stringFilter = new[] { "\n", "\t", " " };
+
+                var nodeCollection = _htmlDocument.DocumentNode?
+                    .Descendants("span")?.ToList();
+
                 var bankData = nodeCollection?
                     .FirstOrDefault(s => s.InnerText.Contains("Agência:"));
 
                 var bankDataStrings = bankData.InnerText
-                    .Replace("\n", "").Replace("\t", "")
-                    .Replace(" ", "").Split('/');
+                    .RemoveStrings(stringFilter).Split('/');
 
                 var agency = bankDataStrings[0].Substring(8, 4);
                 var account = bankDataStrings[1].Substring(6);
                 var userName = nodeCollection[nodeCollection.IndexOf(bankData) - 1]
-                    .InnerText.Replace("\n", "").Replace("\t", "");
+                    .InnerText.RemoveStrings(stringFilter);
 
                 var balance = await GetUserBalanceAsync();
 
@@ -135,16 +141,14 @@ namespace BankScraper.Banks
 
             _htmlDocument.LoadHtml(await WebNavigator.GetHtmlFrom(BASE_URL));
 
-            var collection = _htmlDocument.DocumentNode.Descendants()
-                .Where(descendant => descendant.Name.Equals("input", StringComparison.OrdinalIgnoreCase));
-
+            var collection = _htmlDocument.DocumentNode.Descendants("input");
             var button = collection.FirstOrDefault(
                 node => node.GetAttributeValue("value", string.Empty)
-                .Equals("Avançar", StringComparison.OrdinalIgnoreCase))
+                .EqualsIgnoreCase("Avançar"))
                 .GetAttributeValue("name", string.Empty);
 
             var comboBox = _htmlDocument.DocumentNode.Descendants()
-                .FirstOrDefault(descendant => descendant.Name.Equals("select", StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(descendant => descendant.Name.EqualsIgnoreCase("select"));
 
             _viewStatePrimary = responseString.Substring(responseString.LastIndexOf("![CDATA[") + 8);
             _viewStateSecundary = _viewStatePrimary.Substring(_viewStatePrimary.IndexOf(":") + 1);
@@ -170,8 +174,7 @@ namespace BankScraper.Banks
         {
             _htmlDocument.LoadHtml(responseString);
 
-            var htmlNodes = _htmlDocument.DocumentNode.Descendants()
-                    .Where(descendant => descendant.Name.Equals("a", StringComparison.OrdinalIgnoreCase));
+            var htmlNodes = _htmlDocument.DocumentNode.Descendants("a");
 
             var userConfirmation = htmlNodes.FirstOrDefault(
                 node => node.GetAttributeValue("onclick", string.Empty)
@@ -210,12 +213,11 @@ namespace BankScraper.Banks
 
                 _htmlDocument.LoadHtml(passwordKeyboard);
 
-                var buttonCollection = _htmlDocument.DocumentNode.Descendants()
-                    .Where(descendant => descendant.Name.Equals("input", StringComparison.OrdinalIgnoreCase));
+                var nodeCollection = _htmlDocument.DocumentNode.Descendants("input");
 
-                var charButton = buttonCollection.FirstOrDefault(
+                var charButton = nodeCollection.FirstOrDefault(
                     node => node.GetAttributeValue("value", string.Empty)
-                    .Equals(character.ToString(), StringComparison.OrdinalIgnoreCase));
+                    .EqualsIgnoreCase(character.ToString()));
 
                 var buttonName = charButton.Id.Replace(":", "%3A");
 
@@ -242,16 +244,13 @@ namespace BankScraper.Banks
 
             _htmlDocument.LoadHtml(keyboardPanel);
 
-            var collection = _htmlDocument.DocumentNode.Descendants()
-                .Where(descendant => descendant.Name.Equals("input", StringComparison.OrdinalIgnoreCase));
-
-            var button = collection.FirstOrDefault(
+            var collection = _htmlDocument.DocumentNode.Descendants("input");
+            var buttonId = collection.FirstOrDefault(
                 node => node.GetAttributeValue("value", string.Empty).ToString()
-                .Equals("CONFIRMAR", StringComparison.OrdinalIgnoreCase))
-                .Id;
+                .EqualsIgnoreCase("CONFIRMAR")).Id;
 
             _webNavigator.PostData = $"frmLogin=frmLogin&javax.faces.ViewState={_viewStatePrimary}%3A{_viewStateSecundary}&loginv20170605={_userAccount}" +
-                $"&javax.faces.source={button}&javax.faces.partial.event=click&javax.faces.partial.execute={button}%20{button}" +
+                $"&javax.faces.source={buttonId}&javax.faces.partial.event=click&javax.faces.partial.execute={buttonId}%20{buttonId}" +
                 $"&javax.faces.partial.render=frmLogin&javax.faces.behavior.event=action&javax.faces.partial.ajax=true";
 
             _webNavigator.AditionalHeaders.Add("Faces-Request", "partial/ajax");
@@ -285,16 +284,14 @@ namespace BankScraper.Banks
         
         private async Task<string> GetUserBalanceAsync()
         {
-            var htmlNodes = _htmlDocument.DocumentNode.Descendants()
-                .Where(descendant => descendant.Name.Equals("a", StringComparison.OrdinalIgnoreCase));
-
+            var htmlNodes = _htmlDocument.DocumentNode.Descendants("a");
             var balanceButton = htmlNodes.FirstOrDefault(
                 node => node.GetAttributeValue("onclick", string.Empty)
                 .Contains("mojarra.ab(this,event,'action',0,'frmSaldos')"));
 
             var viewState = _htmlDocument.DocumentNode
                 .Descendants("input")
-                .FirstOrDefault(input => input.Id.Equals("javax.faces.ViewState", StringComparison.OrdinalIgnoreCase))
+                .FirstOrDefault(input => input.Id.EqualsIgnoreCase("javax.faces.ViewState"))
                 .GetAttributeValue("value", string.Empty).Split(':');
 
             _viewStatePrimary = viewState[0];
@@ -323,7 +320,7 @@ namespace BankScraper.Banks
 
             var spanValue = _htmlDocument.DocumentNode.Descendants("span")
                 .FirstOrDefault(span => span.GetAttributeValue("class", string.Empty)
-                .Equals("spanValores", StringComparison.OrdinalIgnoreCase)).InnerHtml;
+                .EqualsIgnoreCase("spanValores")).InnerHtml;
 
             var spanHtml = new HtmlDocument();
             spanHtml.LoadHtml(spanValue);

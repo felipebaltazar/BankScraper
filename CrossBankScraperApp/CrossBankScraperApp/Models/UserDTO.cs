@@ -11,9 +11,9 @@ namespace CrossBankScraperApp.Models
         public string Account { get; set; }
         public string Agency { get; set; }
         public string Balance { get; set; }
-
+        
         public bool Equals(UserDTO other) =>
-            Id == other.Id;
+            Account == other.Account;
 
         public override bool Equals(object obj)
         {
@@ -21,12 +21,12 @@ namespace CrossBankScraperApp.Models
             if (other == null)
                 return false;
 
-            return Id == other.Id;
+            return Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return GetHashCode();
+            return base.GetHashCode();
         }
 
         public override string ToString()
@@ -35,9 +35,9 @@ namespace CrossBankScraperApp.Models
         }
 
         public static bool operator ==(UserDTO u1, UserDTO u2) =>
-            u1.Id == u2.Id;
+            u1.Equals(u2);
 
         public static bool operator !=(UserDTO u1, UserDTO u2) =>
-            u1.Id == u2.Id;
+            !u1.Equals(u2);
     }
 }

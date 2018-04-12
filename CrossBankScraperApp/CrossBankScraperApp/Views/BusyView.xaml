@@ -23,7 +23,7 @@
                    Opacity="0.8" HorizontalOptions="Center" VerticalOptions="Center">
 
                 <StackLayout Padding="12" IsVisible="True" IsEnabled="False">
-                    <ActivityIndicator IsEnabled="True" IsRunning="True" WidthRequest="98" HeightRequest="98" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <ActivityIndicator IsEnabled="True" IsRunning="True" WidthRequest="100" HeightRequest="100" BackgroundColor="Transparent"/>
                     <Label Text="Loading..." TextColor="White" HorizontalOptions="Center" IsVisible="True"/>
                 </StackLayout>
             </Frame>
