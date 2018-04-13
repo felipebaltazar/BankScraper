@@ -13,8 +13,12 @@ The banks below were added in the order they are listed
 | [![BancoInter](https://is4-ssl.mzstatic.com/image/thumb/Purple118/v4/7b/ff/66/7bff665b-903e-a39d-4d89-218628c5e718/AppIcon-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-8.png/230x0w.jpg)]                              | Yes                 | Account Number, Name,                  | Reversed Web API                  | OK     |
 
 
-## Usage
+##Nuget Install
+<pre><code>
+Install-Package Tzar.BankScraper
+</code></pre>
 
+## Usage
 <pre><code>
             var bankscraper = new Scraper(BankFlag.Intermedium);
             var logged = bankscraper.LoginAsync(account, password).Result;
