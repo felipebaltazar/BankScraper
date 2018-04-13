@@ -4,6 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Felipe da Silva Baltazar</Authors>
     <Company>Felipe da Silva Baltazar</Company>
+    <PackageId>Tzar.BankScraper</PackageId>
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.0.1</AssemblyVersion>
+    <FileVersion>0.0.0.1</FileVersion>
+    <PackageTags>webscraper; bankscraper; scraper</PackageTags>
+    <Description>Brazilian Bank Scraper
+*Open source</Description>
+    <PackageProjectUrl>https://github.com/felipebaltazar/BankScraper</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
