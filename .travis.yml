@@ -1,0 +1,9 @@
+language: csharp
+language: csharp
+mono: none
+dotnet: 2.0.0
+solution: BankScraper.sln
+script:
+  - cd BankScraper
+  - dotnet restore
+  - dotnet build -c Release

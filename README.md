@@ -1,6 +1,8 @@
 # BankScraper
 Brazilian Bank Scraper
 
+[![Build Status](https://travis-ci.org/felipebaltazar/BankScraper.svg?branch=master)](https://travis-ci.org/felipebaltazar/BankScraper) [![NuGet](https://img.shields.io/nuget/v/Tzar.BankScraper.svg)](https://www.nuget.org/packages/Tzar.BankScraper/)
+
 **WARNING:** Using this tool without care may lead to your bank account being blocked. Use at your own risk!
 
 ## Current Supported Banks
@@ -14,15 +16,15 @@ The banks below were added in the order they are listed
 
 
 ## Nuget Install
-<pre><code>
+```
 Install-Package Tzar.BankScraper
-</code></pre>
+```
 
 ## Usage
-<pre><code>
+```csharp
             var bankscraper = new Scraper(BankFlag.Intermedium);
             var logged = bankscraper.LoginAsync(account, password).Result;
 
             if (logged)
                 var userDetails = bankscraper.GetUserDetailsAsync().Result;
-</code></pre>
+```
